@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String?
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  preferences   UserPreferences?
+  ingredients   UserIngredient[]
+  mealPlans     MealPlan[]
+  groceryLists  GroceryList[]
+
+  @@map("users")
+}
+
+model UserPreferences {
+  id                  String   @id @default(uuid())
+  userId              String   @unique @map("user_id")
+  cuisines            String[] @default([])
+  dietaryRestrictions String[] @default([]) @map("dietary_restrictions")
+  cookingSkill        String   @default("Beginner") @map("cooking_skill")
+  maxCookTimeMinutes  Int      @default(30) @map("max_cook_time_minutes")
+  servings            Int      @default(2)
+  goal                String   @default("Maintain")
+  updatedAt           DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
+}
+
+model UserIngredient {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  name     String
+  category String?
+  addedAt  DateTime @default(now()) @map("added_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_ingredients")
+}
+
+model MealPlan {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  date      DateTime @db.Date
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meals Meal[]
+
+  @@map("meal_plans")
+}
+
+model Meal {
+  id                String  @id @default(uuid())
+  mealPlanId        String  @map("meal_plan_id")
+  type              String  // breakfast, lunch, dinner, snack
+  title             String
+  description       String?
+  ingredients       Json    @default("[]")
+  instructions      Json    @default("[]")
+  prepTimeMinutes   Int?    @map("prep_time_minutes")
+  cookTimeMinutes   Int?    @map("cook_time_minutes")
+  estimatedCalories Int?    @map("estimated_calories")
+  estimatedProteinG Int?    @map("estimated_protein_g")
+  cuisine           String?
+  isFavorite        Boolean @default(false) @map("is_favorite")
+
+  mealPlan MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+
+  @@map("meals")
+}
+
+model GroceryList {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  mealPlanId String?  @map("meal_plan_id")
+  items      Json     @default("[]")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("grocery_lists")
+}
