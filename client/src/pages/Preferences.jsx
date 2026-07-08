@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
+import { apiUrl } from '../utils/api.js';
 
 const CUISINES = ['Indian', 'Mexican', 'Italian', 'Chinese', 'Korean', 'Japanese', 'Thai', 'Mediterranean', 'American', 'Middle Eastern'];
 const DIETARY = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Nut-Free', 'Halal', 'Kosher', 'Keto', 'Low-Carb'];
@@ -18,7 +19,7 @@ function Preferences() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch('/api/preferences', {
+    fetch(apiUrl('/api/preferences'), {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -40,7 +41,7 @@ function Preferences() {
 
   const handleSave = async () => {
     setLoading(true);
-    await fetch('/api/preferences', {
+    await fetch(apiUrl('/api/preferences'), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

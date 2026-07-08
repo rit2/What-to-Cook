@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
+import { apiUrl } from '../utils/api.js';
 
 function Favorites() {
   const { token } = useAuth();
@@ -7,7 +8,7 @@ function Favorites() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/meals/favorites', {
+    fetch(apiUrl('/api/meals/favorites'), {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())

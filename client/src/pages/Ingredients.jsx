@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
+import { apiUrl } from '../utils/api.js';
 
 function Ingredients() {
   const { token } = useAuth();
@@ -12,7 +13,7 @@ function Ingredients() {
   }, [token]);
 
   const fetchIngredients = async () => {
-    const res = await fetch('/api/ingredients', {
+    const res = await fetch(apiUrl('/api/ingredients'), {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -24,7 +25,7 @@ function Ingredients() {
     e.preventDefault();
     if (!newIngredient.trim()) return;
 
-    const res = await fetch('/api/ingredients', {
+    const res = await fetch(apiUrl('/api/ingredients'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ function Ingredients() {
   };
 
   const removeIngredient = async (id) => {
-    await fetch(`/api/ingredients/${id}`, {
+    await fetch(apiUrl(`/api/ingredients/${id}`), {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     });

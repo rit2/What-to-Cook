@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
+import { apiUrl } from '../utils/api.js';
 
 function MealPlan() {
   const { token } = useAuth();
@@ -12,7 +13,7 @@ function MealPlan() {
     setError('');
 
     try {
-      const res = await fetch('/api/meal-plans/generate', {
+      const res = await fetch(apiUrl('/api/meal-plans/generate'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +37,7 @@ function MealPlan() {
   };
 
   const toggleFavorite = async (mealId) => {
-    await fetch(`/api/meals/${mealId}/favorite`, {
+    await fetch(apiUrl(`/api/meals/${mealId}/favorite`), {
       method: 'PATCH',
       headers: { Authorization: `Bearer ${token}` },
     });

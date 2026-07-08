@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
+import { apiUrl } from '../utils/api.js';
 
 function GroceryList() {
   const { token } = useAuth();
@@ -8,7 +9,7 @@ function GroceryList() {
 
   const generateList = async () => {
     setLoading(true);
-    const res = await fetch('/api/grocery-lists/generate', {
+    const res = await fetch(apiUrl('/api/grocery-lists/generate'), {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -22,7 +23,7 @@ function GroceryList() {
     updated.items[index].checked = !updated.items[index].checked;
     setList({ ...updated });
 
-    await fetch(`/api/grocery-lists/${list.id}`, {
+    await fetch(apiUrl(`/api/grocery-lists/${list.id}`), {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
