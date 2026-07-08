@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import prisma from './config/db.js';
 import authRoutes from './routes/auth.js';
 import preferencesRoutes from './routes/preferences.js';
 import ingredientsRoutes from './routes/ingredients.js';
@@ -22,6 +23,22 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
+
+// Create or get the default user for no-auth mode
+app.use(async (req, res, next) => {
+  try {
+    let user = await prisma.user.findFirst();
+    if (!user) {
+      user = await prisma.user.create({
+        data: { email: 'default@whattocook.app', passwordHash: 'noauth', name: 'Guest' },
+      });
+    }
+    req.userId = user.id;
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Routes
 app.use('/api/auth', authRoutes);

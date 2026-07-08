@@ -1,21 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
 import { apiUrl } from '../utils/api.js';
 
 function Ingredients() {
-  const { token } = useAuth();
   const [ingredients, setIngredients] = useState([]);
   const [newIngredient, setNewIngredient] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchIngredients();
-  }, [token]);
+  }, []);
 
   const fetchIngredients = async () => {
-    const res = await fetch(apiUrl('/api/ingredients'), {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await fetch(apiUrl('/api/ingredients'));
     const data = await res.json();
     setIngredients(data.ingredients || []);
     setLoading(false);
@@ -27,10 +23,7 @@ function Ingredients() {
 
     const res = await fetch(apiUrl('/api/ingredients'), {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: newIngredient.trim() }),
     });
 
@@ -42,10 +35,7 @@ function Ingredients() {
   };
 
   const removeIngredient = async (id) => {
-    await fetch(apiUrl(`/api/ingredients/${id}`), {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    await fetch(apiUrl(`/api/ingredients/${id}`), { method: 'DELETE' });
     setIngredients(ingredients.filter((i) => i.id !== id));
   };
 

@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
 import { apiUrl } from '../utils/api.js';
 
 function MealPlan() {
-  const { token } = useAuth();
   const [meals, setMeals] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -15,10 +13,7 @@ function MealPlan() {
     try {
       const res = await fetch(apiUrl('/api/meal-plans/generate'), {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { 'Content-Type': 'application/json' },
       });
 
       const data = await res.json();
@@ -37,10 +32,7 @@ function MealPlan() {
   };
 
   const toggleFavorite = async (mealId) => {
-    await fetch(apiUrl(`/api/meals/${mealId}/favorite`), {
-      method: 'PATCH',
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    await fetch(apiUrl(`/api/meals/${mealId}/favorite`), { method: 'PATCH' });
 
     setMeals({
       ...meals,
@@ -94,7 +86,6 @@ function MealPlan() {
         <div className="space-y-6">
           {meals.meals.map((meal) => (
             <div key={meal.id} className="clay-card p-6 overflow-hidden">
-              {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 ${mealGradients[meal.type] || 'bg-gradient-teal'} rounded-xl shadow-clay-sm flex items-center justify-center`}>
@@ -114,14 +105,12 @@ function MealPlan() {
                 </button>
               </div>
 
-              {/* Stats */}
               <div className="flex gap-2 mb-5">
                 <span className="clay-chip bg-surface-muted text-xs text-text-secondary">⏱ {meal.prepTimeMinutes + meal.cookTimeMinutes} min</span>
                 <span className="clay-chip bg-surface-muted text-xs text-text-secondary">🔥 {meal.estimatedCalories} cal</span>
                 <span className="clay-chip bg-surface-muted text-xs text-text-secondary">💪 {meal.estimatedProteinG}g protein</span>
               </div>
 
-              {/* Ingredients */}
               <div className="mb-5">
                 <p className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-3">ingredients</p>
                 <div className="flex flex-wrap gap-2">
@@ -133,7 +122,6 @@ function MealPlan() {
                 </div>
               </div>
 
-              {/* Steps */}
               <div>
                 <p className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-3">steps</p>
                 <div className="space-y-3">

@@ -1,11 +1,9 @@
 import { Router } from 'express';
 import prisma from '../config/db.js';
-import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
 
-// Generate grocery list from latest meal plan
-router.post('/generate', authenticate, async (req, res) => {
+router.post('/generate', async (req, res) => {
   try {
     const latestPlan = await prisma.mealPlan.findFirst({
       where: { userId: req.userId },
@@ -17,7 +15,6 @@ router.post('/generate', authenticate, async (req, res) => {
       return res.status(400).json({ message: 'No meal plan found. Generate one first.' });
     }
 
-    // Collect all ingredients from meals and deduplicate
     const ingredientMap = new Map();
 
     for (const meal of latestPlan.meals) {
@@ -42,7 +39,6 @@ router.post('/generate', authenticate, async (req, res) => {
         items,
       },
     });
-
     res.json({ groceryList });
   } catch (err) {
     console.error(err);
@@ -50,17 +46,12 @@ router.post('/generate', authenticate, async (req, res) => {
   }
 });
 
-// Get grocery list
-router.get('/:id', authenticate, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const groceryList = await prisma.groceryList.findFirst({
       where: { id: req.params.id, userId: req.userId },
     });
-
-    if (!groceryList) {
-      return res.status(404).json({ message: 'Grocery list not found' });
-    }
-
+    if (!groceryList) return res.status(404).json({ message: 'Grocery list not found' });
     res.json({ groceryList });
   } catch (err) {
     console.error(err);
@@ -68,16 +59,13 @@ router.get('/:id', authenticate, async (req, res) => {
   }
 });
 
-// Update grocery list (check off items)
-router.patch('/:id', authenticate, async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
     const { items } = req.body;
-
     const groceryList = await prisma.groceryList.update({
       where: { id: req.params.id },
       data: { items },
     });
-
     res.json({ groceryList });
   } catch (err) {
     console.error(err);

@@ -1,16 +1,13 @@
 import { Router } from 'express';
 import prisma from '../config/db.js';
-import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
 
-// Get preferences
-router.get('/', authenticate, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const preferences = await prisma.userPreferences.findUnique({
       where: { userId: req.userId },
     });
-
     res.json({ preferences });
   } catch (err) {
     console.error(err);
@@ -18,8 +15,7 @@ router.get('/', authenticate, async (req, res) => {
   }
 });
 
-// Update preferences
-router.put('/', authenticate, async (req, res) => {
+router.put('/', async (req, res) => {
   try {
     const { cuisines, dietaryRestrictions, cookingSkill, maxCookTimeMinutes, servings, goal } = req.body;
 
@@ -28,7 +24,6 @@ router.put('/', authenticate, async (req, res) => {
       update: { cuisines, dietaryRestrictions, cookingSkill, maxCookTimeMinutes, servings, goal },
       create: { userId: req.userId, cuisines, dietaryRestrictions, cookingSkill, maxCookTimeMinutes, servings, goal },
     });
-
     res.json({ preferences });
   } catch (err) {
     console.error(err);

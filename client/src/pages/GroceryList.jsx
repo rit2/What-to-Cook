@@ -1,18 +1,13 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
 import { apiUrl } from '../utils/api.js';
 
 function GroceryList() {
-  const { token } = useAuth();
   const [list, setList] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const generateList = async () => {
     setLoading(true);
-    const res = await fetch(apiUrl('/api/grocery-lists/generate'), {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await fetch(apiUrl('/api/grocery-lists/generate'), { method: 'POST' });
     const data = await res.json();
     setList(data.groceryList);
     setLoading(false);
@@ -25,10 +20,7 @@ function GroceryList() {
 
     await fetch(apiUrl(`/api/grocery-lists/${list.id}`), {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ items: updated.items }),
     });
   };
@@ -55,7 +47,6 @@ function GroceryList() {
 
       {list ? (
         <div className="clay-card p-6">
-          {/* Progress bar */}
           <div className="mb-6">
             <div className="flex justify-between text-xs font-display text-text-muted mb-2">
               <span>{checkedCount} of {totalCount} items</span>
@@ -69,7 +60,6 @@ function GroceryList() {
             </div>
           </div>
 
-          {/* Items */}
           <div className="space-y-2">
             {list.items.map((item, i) => (
               <label

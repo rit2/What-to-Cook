@@ -1,16 +1,12 @@
 import { Router } from 'express';
 import OpenAI from 'openai';
 import prisma from '../config/db.js';
-import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
-
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Generate a meal plan
-router.post('/generate', authenticate, async (req, res) => {
+router.post('/generate', async (req, res) => {
   try {
-    // Get user preferences and ingredients
     const [preferences, ingredients] = await Promise.all([
       prisma.userPreferences.findUnique({ where: { userId: req.userId } }),
       prisma.userIngredient.findMany({ where: { userId: req.userId } }),
@@ -30,7 +26,7 @@ User preferences:
 
 Available ingredients: ${ingredientNames || 'No specific ingredients listed — suggest common ones'}
 
-Return a JSON array of 3 meals. Each meal should have:
+Return a JSON object with a "meals" array of 3 meals. Each meal should have:
 - type (breakfast, lunch, or dinner)
 - title
 - description (one sentence)
@@ -54,7 +50,6 @@ Return ONLY valid JSON, no other text.`;
     const parsed = JSON.parse(content);
     const mealsData = parsed.meals || parsed;
 
-    // Save to database
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -87,15 +82,13 @@ Return ONLY valid JSON, no other text.`;
   }
 });
 
-// Get all meal plans
-router.get('/', authenticate, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const mealPlans = await prisma.mealPlan.findMany({
       where: { userId: req.userId },
       include: { meals: true },
       orderBy: { createdAt: 'desc' },
     });
-
     res.json({ mealPlans });
   } catch (err) {
     console.error(err);
@@ -103,18 +96,13 @@ router.get('/', authenticate, async (req, res) => {
   }
 });
 
-// Get a single meal plan
-router.get('/:id', authenticate, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const mealPlan = await prisma.mealPlan.findFirst({
       where: { id: req.params.id, userId: req.userId },
       include: { meals: true },
     });
-
-    if (!mealPlan) {
-      return res.status(404).json({ message: 'Meal plan not found' });
-    }
-
+    if (!mealPlan) return res.status(404).json({ message: 'Meal plan not found' });
     res.json({ mealPlan });
   } catch (err) {
     console.error(err);

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
 import { apiUrl } from '../utils/api.js';
 
 const CUISINES = ['Indian', 'Mexican', 'Italian', 'Chinese', 'Korean', 'Japanese', 'Thai', 'Mediterranean', 'American', 'Middle Eastern'];
@@ -8,7 +7,6 @@ const SKILLS = ['Beginner', 'Intermediate', 'Advanced'];
 const GOALS = ['Bulk', 'Cut', 'Maintain', 'Budget'];
 
 function Preferences() {
-  const { token } = useAuth();
   const [cuisines, setCuisines] = useState([]);
   const [dietary, setDietary] = useState([]);
   const [skill, setSkill] = useState('Beginner');
@@ -19,9 +17,7 @@ function Preferences() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(apiUrl('/api/preferences'), {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    fetch(apiUrl('/api/preferences'))
       .then((res) => res.json())
       .then((data) => {
         if (data.preferences) {
@@ -33,7 +29,7 @@ function Preferences() {
           setGoal(data.preferences.goal || 'Maintain');
         }
       });
-  }, [token]);
+  }, []);
 
   const toggleItem = (list, setList, item) => {
     setList(list.includes(item) ? list.filter((i) => i !== item) : [...list, item]);
@@ -43,10 +39,7 @@ function Preferences() {
     setLoading(true);
     await fetch(apiUrl('/api/preferences'), {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         cuisines,
         dietaryRestrictions: dietary,
@@ -77,11 +70,7 @@ function Preferences() {
               <button
                 key={c}
                 onClick={() => toggleItem(cuisines, setCuisines, c)}
-                className={`clay-chip ${
-                  cuisines.includes(c)
-                    ? 'bg-gradient-teal text-brand-navy'
-                    : 'bg-surface-muted text-text-secondary'
-                }`}
+                className={`clay-chip ${cuisines.includes(c) ? 'bg-gradient-teal text-brand-navy' : 'bg-surface-muted text-text-secondary'}`}
               >
                 {c.toLowerCase()}
               </button>
@@ -96,11 +85,7 @@ function Preferences() {
               <button
                 key={d}
                 onClick={() => toggleItem(dietary, setDietary, d)}
-                className={`clay-chip ${
-                  dietary.includes(d)
-                    ? 'bg-gradient-pink text-brand-navy'
-                    : 'bg-surface-muted text-text-secondary'
-                }`}
+                className={`clay-chip ${dietary.includes(d) ? 'bg-gradient-pink text-brand-navy' : 'bg-surface-muted text-text-secondary'}`}
               >
                 {d.toLowerCase()}
               </button>
@@ -115,11 +100,7 @@ function Preferences() {
               <button
                 key={s}
                 onClick={() => setSkill(s)}
-                className={`clay-chip flex-1 text-center ${
-                  skill === s
-                    ? 'bg-gradient-sage text-brand-navy'
-                    : 'bg-surface-muted text-text-secondary'
-                }`}
+                className={`clay-chip flex-1 text-center ${skill === s ? 'bg-gradient-sage text-brand-navy' : 'bg-surface-muted text-text-secondary'}`}
               >
                 {s.toLowerCase()}
               </button>
@@ -165,11 +146,7 @@ function Preferences() {
               <button
                 key={g}
                 onClick={() => setGoal(g)}
-                className={`clay-chip flex-1 text-center ${
-                  goal === g
-                    ? 'bg-gradient-orange text-brand-navy'
-                    : 'bg-surface-muted text-text-secondary'
-                }`}
+                className={`clay-chip flex-1 text-center ${goal === g ? 'bg-gradient-orange text-brand-navy' : 'bg-surface-muted text-text-secondary'}`}
               >
                 {g.toLowerCase()}
               </button>

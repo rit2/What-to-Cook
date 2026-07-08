@@ -1,22 +1,18 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
 import { apiUrl } from '../utils/api.js';
 
 function Favorites() {
-  const { token } = useAuth();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(apiUrl('/api/meals/favorites'), {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    fetch(apiUrl('/api/meals/favorites'))
       .then((res) => res.json())
       .then((data) => {
         setFavorites(data.meals || []);
         setLoading(false);
       });
-  }, [token]);
+  }, []);
 
   if (loading) return <p className="text-text-muted text-center py-12 font-display">loading saved recipes...</p>;
 

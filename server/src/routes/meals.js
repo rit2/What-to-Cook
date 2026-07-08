@@ -1,11 +1,9 @@
 import { Router } from 'express';
 import prisma from '../config/db.js';
-import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
 
-// Toggle favorite
-router.patch('/:id/favorite', authenticate, async (req, res) => {
+router.patch('/:id/favorite', async (req, res) => {
   try {
     const meal = await prisma.meal.findFirst({
       where: { id: req.params.id },
@@ -20,7 +18,6 @@ router.patch('/:id/favorite', authenticate, async (req, res) => {
       where: { id: req.params.id },
       data: { isFavorite: !meal.isFavorite },
     });
-
     res.json({ meal: updated });
   } catch (err) {
     console.error(err);
@@ -28,17 +25,14 @@ router.patch('/:id/favorite', authenticate, async (req, res) => {
   }
 });
 
-// Get all favorites
-router.get('/favorites', authenticate, async (req, res) => {
+router.get('/favorites', async (req, res) => {
   try {
     const meals = await prisma.meal.findMany({
       where: {
         isFavorite: true,
         mealPlan: { userId: req.userId },
       },
-      orderBy: { mealPlan: { createdAt: 'desc' } },
     });
-
     res.json({ meals });
   } catch (err) {
     console.error(err);
