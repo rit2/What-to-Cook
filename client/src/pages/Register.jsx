@@ -42,63 +42,70 @@ function Register() {
 
   return (
     <div className="max-w-sm mx-auto py-12">
-      <h1 className="font-serif text-2xl text-center text-warm-700 mb-2">Hello there</h1>
-      <p className="text-center text-warm-400 text-sm mb-8">let's get you set up. it only takes a moment.</p>
-
-      {error && (
-        <div className="bg-berry/10 border border-berry/20 text-warm-700 p-3 rounded-xl mb-6 text-sm text-center">{error}</div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-5">
-        <div>
-          <label className="block text-sm text-warm-500 mb-2">your name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="w-full bg-cream border border-warm-200 rounded-xl px-4 py-3 text-sm text-warm-700 focus:outline-none focus:border-warm-400 transition-colors"
-          />
+      <div className="clay-card p-8">
+        <div className="text-center mb-8">
+          <div className="w-14 h-14 bg-gradient-orange rounded-2xl shadow-clay-sm mx-auto mb-4 flex items-center justify-center text-2xl">🍳</div>
+          <h1 className="font-display text-2xl font-bold text-brand-navy">join what to cook</h1>
+          <p className="text-text-muted text-sm mt-1">takes 10 seconds</p>
         </div>
 
-        <div>
-          <label className="block text-sm text-warm-500 mb-2">email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full bg-cream border border-warm-200 rounded-xl px-4 py-3 text-sm text-warm-700 focus:outline-none focus:border-warm-400 transition-colors"
-          />
-        </div>
+        {error && (
+          <div className="bg-brand-pink-light/50 text-text-primary p-3 rounded-2xl mb-6 text-sm text-center">{error}</div>
+        )}
 
-        <div>
-          <label className="block text-sm text-warm-500 mb-2">password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-            className="w-full bg-cream border border-warm-200 rounded-xl px-4 py-3 text-sm text-warm-700 focus:outline-none focus:border-warm-400 transition-colors"
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-xs font-display font-semibold text-text-secondary mb-2 ml-1">name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="clay-input w-full"
+              placeholder="what should we call you?"
+            />
+          </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-sage-light/60 border border-sage/30 py-3 rounded-xl text-warm-700 font-medium hover:bg-sage-light transition-all disabled:opacity-50"
-        >
-          {loading ? 'setting up...' : 'create account'}
-        </button>
-      </form>
+          <div>
+            <label className="block text-xs font-display font-semibold text-text-secondary mb-2 ml-1">email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="clay-input w-full"
+            />
+          </div>
 
-      <p className="text-center text-warm-400 text-sm mt-6">
-        already have an account?{' '}
-        <Link to="/login" className="text-warm-600 underline decoration-warm-300">
-          sign in
-        </Link>
-      </p>
+          <div>
+            <label className="block text-xs font-display font-semibold text-text-secondary mb-2 ml-1">password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+              className="clay-input w-full"
+              placeholder="6+ characters"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="clay-button bg-gradient-teal text-brand-navy w-full py-4 text-sm mt-2 disabled:opacity-50"
+          >
+            {loading ? 'creating account...' : '✨ create account'}
+          </button>
+        </form>
+
+        <p className="text-center text-text-muted text-sm mt-6">
+          already have an account?{' '}
+          <Link to="/login" className="text-brand-teal font-semibold">
+            log in
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

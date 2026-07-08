@@ -63,70 +63,73 @@ function Preferences() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <h1 className="font-serif text-2xl text-warm-700 mb-2">Your Preferences</h1>
-      <p className="text-warm-400 text-sm mb-10">Tell us a bit about how you eat. You can always change this later.</p>
+      <div className="text-center mb-10">
+        <div className="w-14 h-14 bg-gradient-pink rounded-2xl shadow-clay-sm mx-auto mb-4 flex items-center justify-center text-2xl">⚙️</div>
+        <h1 className="font-display text-2xl font-bold text-brand-navy">your preferences</h1>
+        <p className="text-text-secondary text-sm mt-1">tell us your vibe. change anytime.</p>
+      </div>
 
-      <div className="space-y-10">
-        <div>
-          <h2 className="text-sm text-warm-500 mb-3 font-medium">Cuisines you enjoy</h2>
+      <div className="space-y-8">
+        <div className="clay-card p-6">
+          <h2 className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-4">cuisines you love</h2>
           <div className="flex flex-wrap gap-2">
             {CUISINES.map((c) => (
               <button
                 key={c}
                 onClick={() => toggleItem(cuisines, setCuisines, c)}
-                className={`px-4 py-2 rounded-lg text-sm transition-all ${
+                className={`clay-chip ${
                   cuisines.includes(c)
-                    ? 'bg-sage-light border border-sage/40 text-warm-700'
-                    : 'bg-cream border border-warm-200 text-warm-500 hover:border-warm-300'
+                    ? 'bg-gradient-teal text-brand-navy'
+                    : 'bg-surface-muted text-text-secondary'
                 }`}
               >
-                {c}
+                {c.toLowerCase()}
               </button>
             ))}
           </div>
         </div>
 
-        <div>
-          <h2 className="text-sm text-warm-500 mb-3 font-medium">Dietary needs</h2>
+        <div className="clay-card p-6">
+          <h2 className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-4">dietary needs</h2>
           <div className="flex flex-wrap gap-2">
             {DIETARY.map((d) => (
               <button
                 key={d}
                 onClick={() => toggleItem(dietary, setDietary, d)}
-                className={`px-4 py-2 rounded-lg text-sm transition-all ${
+                className={`clay-chip ${
                   dietary.includes(d)
-                    ? 'bg-warm-200 border border-warm-300 text-warm-700'
-                    : 'bg-cream border border-warm-200 text-warm-500 hover:border-warm-300'
+                    ? 'bg-gradient-pink text-brand-navy'
+                    : 'bg-surface-muted text-text-secondary'
                 }`}
               >
-                {d}
+                {d.toLowerCase()}
               </button>
             ))}
           </div>
         </div>
 
-        <div>
-          <h2 className="text-sm text-warm-500 mb-3 font-medium">How comfortable are you cooking?</h2>
+        <div className="clay-card p-6">
+          <h2 className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-4">cooking skill</h2>
           <div className="flex gap-2">
             {SKILLS.map((s) => (
               <button
                 key={s}
                 onClick={() => setSkill(s)}
-                className={`px-5 py-2 rounded-lg text-sm transition-all ${
+                className={`clay-chip flex-1 text-center ${
                   skill === s
-                    ? 'bg-sage-light border border-sage/40 text-warm-700'
-                    : 'bg-cream border border-warm-200 text-warm-500 hover:border-warm-300'
+                    ? 'bg-gradient-sage text-brand-navy'
+                    : 'bg-surface-muted text-text-secondary'
                 }`}
               >
-                {s}
+                {s.toLowerCase()}
               </button>
             ))}
           </div>
         </div>
 
-        <div>
-          <h2 className="text-sm text-warm-500 mb-3 font-medium">
-            How much time do you have? — <span className="italic">{maxCookTime} minutes</span>
+        <div className="clay-card p-6">
+          <h2 className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-3">
+            max cook time — <span className="text-brand-orange">{maxCookTime} min</span>
           </h2>
           <input
             type="range"
@@ -135,54 +138,54 @@ function Preferences() {
             step="5"
             value={maxCookTime}
             onChange={(e) => setMaxCookTime(Number(e.target.value))}
-            className="w-full accent-sage"
+            className="w-full accent-brand-teal h-2 rounded-pill"
           />
-          <div className="flex justify-between text-xs text-warm-300 mt-1">
-            <span>quick (10 min)</span>
-            <span>slow cook (2 hrs)</span>
+          <div className="flex justify-between text-xs text-text-muted mt-2 font-display">
+            <span>10 min</span>
+            <span>2 hrs</span>
           </div>
         </div>
 
-        <div>
-          <h2 className="text-sm text-warm-500 mb-3 font-medium">Servings</h2>
+        <div className="clay-card p-6">
+          <h2 className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-4">servings</h2>
           <input
             type="number"
             min="1"
             max="10"
             value={servings}
             onChange={(e) => setServings(Number(e.target.value))}
-            className="w-20 bg-cream border border-warm-200 rounded-lg px-3 py-2 text-sm text-warm-700 focus:outline-none focus:border-warm-400"
+            className="clay-input w-24 text-center font-display font-bold text-lg"
           />
         </div>
 
-        <div>
-          <h2 className="text-sm text-warm-500 mb-3 font-medium">What's your goal right now?</h2>
+        <div className="clay-card p-6">
+          <h2 className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-4">current goal</h2>
           <div className="flex gap-2">
             {GOALS.map((g) => (
               <button
                 key={g}
                 onClick={() => setGoal(g)}
-                className={`px-5 py-2 rounded-lg text-sm transition-all ${
+                className={`clay-chip flex-1 text-center ${
                   goal === g
-                    ? 'bg-sky/30 border border-sky/50 text-warm-700'
-                    : 'bg-cream border border-warm-200 text-warm-500 hover:border-warm-300'
+                    ? 'bg-gradient-orange text-brand-navy'
+                    : 'bg-surface-muted text-text-secondary'
                 }`}
               >
-                {g}
+                {g.toLowerCase()}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="flex items-center gap-4 pt-4">
+        <div className="flex items-center gap-4">
           <button
             onClick={handleSave}
             disabled={loading}
-            className="bg-sage-light/60 border border-sage/30 px-6 py-3 rounded-xl text-sm text-warm-700 font-medium hover:bg-sage-light transition-all disabled:opacity-50"
+            className="clay-button bg-gradient-teal text-brand-navy px-8 py-4 text-sm disabled:opacity-50"
           >
-            {loading ? 'saving...' : 'save preferences'}
+            {loading ? 'saving...' : '✓ save preferences'}
           </button>
-          {saved && <span className="text-sm text-sage-dark italic">saved ✓</span>}
+          {saved && <span className="text-sm text-brand-sage font-display font-semibold">saved!</span>}
         </div>
       </div>
     </div>

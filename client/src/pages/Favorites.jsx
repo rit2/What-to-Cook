@@ -18,28 +18,36 @@ function Favorites() {
       });
   }, [token]);
 
-  if (loading) return <p className="text-warm-400 text-center py-12 italic">loading your saved recipes...</p>;
+  if (loading) return <p className="text-text-muted text-center py-12 font-display">loading saved recipes...</p>;
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="font-serif text-2xl text-warm-700 mb-2">Saved Recipes</h1>
-      <p className="text-warm-400 text-sm mb-8">the ones you want to come back to.</p>
+      <div className="text-center mb-8">
+        <div className="w-14 h-14 bg-gradient-pink rounded-2xl shadow-clay-sm mx-auto mb-4 flex items-center justify-center text-2xl">❤️</div>
+        <h1 className="font-display text-2xl font-bold text-brand-navy">saved recipes</h1>
+        <p className="text-text-secondary text-sm mt-1">the ones you want to cook again</p>
+      </div>
 
       {favorites.length === 0 ? (
-        <div className="bg-cream rounded-2xl p-12 text-center shadow-soft">
-          <p className="font-serif italic text-warm-400">nothing saved yet.</p>
-          <p className="text-warm-400 text-sm mt-2">when you find a meal you love, tap the heart to save it here.</p>
+        <div className="clay-card p-12 text-center">
+          <p className="font-display font-semibold text-brand-navy">nothing saved yet</p>
+          <p className="text-text-muted text-sm mt-2">tap the heart on meals you love to save them here.</p>
         </div>
       ) : (
         <div className="space-y-3">
           {favorites.map((meal) => (
-            <div key={meal.id} className="bg-cream border border-warm-100 rounded-xl p-5 shadow-soft">
-              <h2 className="font-serif text-lg text-warm-700">{meal.title}</h2>
-              <div className="flex gap-4 mt-2 text-xs text-warm-400">
-                <span>{meal.prepTimeMinutes + meal.cookTimeMinutes} min</span>
-                <span>~{meal.estimatedCalories} cal</span>
-                <span>{meal.estimatedProteinG}g protein</span>
-                {meal.cuisine && <span className="italic">{meal.cuisine}</span>}
+            <div key={meal.id} className="clay-card p-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-pink rounded-xl shadow-clay-sm flex items-center justify-center">❤️</div>
+                <div className="flex-1">
+                  <h2 className="font-display font-bold text-brand-navy">{meal.title}</h2>
+                  <div className="flex gap-3 mt-1">
+                    <span className="text-xs text-text-muted">{meal.prepTimeMinutes + meal.cookTimeMinutes} min</span>
+                    <span className="text-xs text-text-muted">{meal.estimatedCalories} cal</span>
+                    <span className="text-xs text-text-muted">{meal.estimatedProteinG}g protein</span>
+                    {meal.cuisine && <span className="text-xs text-brand-teal">{meal.cuisine}</span>}
+                  </div>
+                </div>
               </div>
             </div>
           ))}

@@ -7,109 +7,131 @@ function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="py-20 text-center">
-        <p className="text-sm text-warm-400 tracking-wide mb-6">~ no rush, no pressure ~</p>
-        <h1 className="font-serif text-4xl md:text-5xl text-warm-800 leading-snug mb-6">
-          Not sure what<br />to cook today?
-        </h1>
-        <p className="text-warm-500 max-w-md mx-auto leading-relaxed mb-10">
-          That's okay. Tell us what you have, and we'll gently suggest
-          something nice to make. No meal prep stress. Just simple ideas.
-        </p>
+      <section className="py-16 text-center relative">
+        {/* Floating decorative elements */}
+        <div className="absolute top-8 left-8 w-16 h-16 bg-gradient-pink rounded-full shadow-clay opacity-60 blur-[1px]"></div>
+        <div className="absolute top-20 right-12 w-12 h-12 bg-gradient-teal rounded-full shadow-clay opacity-50 blur-[1px]"></div>
+        <div className="absolute bottom-12 left-1/4 w-10 h-10 bg-gradient-orange rounded-full shadow-clay-sm opacity-40"></div>
 
-        {user ? (
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link
-              to="/meal-plan"
-              className="bg-sage-light/60 border border-sage/30 px-7 py-3 rounded-xl text-warm-700 font-medium hover:bg-sage-light transition-all"
-            >
-              see today's ideas
-            </Link>
-            <Link
-              to="/ingredients"
-              className="border border-warm-200 px-7 py-3 rounded-xl text-warm-500 hover:border-warm-300 transition-all"
-            >
-              update pantry
-            </Link>
+        <div className="relative z-10">
+          <div className="w-20 h-20 bg-gradient-orange rounded-full shadow-clay-lg mx-auto mb-6 flex items-center justify-center text-3xl">
+            🍜
           </div>
-        ) : (
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link
-              to="/register"
-              className="bg-sage-light/60 border border-sage/30 px-7 py-3 rounded-xl text-warm-700 font-medium hover:bg-sage-light transition-all"
-            >
-              get started
-            </Link>
-            <Link
-              to="/login"
-              className="border border-warm-200 px-7 py-3 rounded-xl text-warm-500 hover:border-warm-300 transition-all"
-            >
-              welcome back
-            </Link>
-          </div>
-        )}
+          <h1 className="font-display text-5xl md:text-6xl font-bold text-brand-navy leading-tight mb-4">
+            what should i<br />cook today?
+          </h1>
+          <p className="font-body text-text-secondary text-lg max-w-md mx-auto leading-relaxed mb-10">
+            add your ingredients, tell us your vibe, and we'll suggest something delicious.
+          </p>
+
+          {user ? (
+            <div className="flex gap-4 justify-center flex-wrap">
+              <Link
+                to="/meal-plan"
+                className="clay-button bg-gradient-teal text-brand-navy px-8 py-4 text-base"
+              >
+                ✨ generate meals
+              </Link>
+              <Link
+                to="/ingredients"
+                className="clay-button bg-surface-card text-text-secondary px-8 py-4 text-base"
+              >
+                update pantry
+              </Link>
+            </div>
+          ) : (
+            <div className="flex gap-4 justify-center flex-wrap">
+              <Link
+                to="/register"
+                className="clay-button bg-gradient-teal text-brand-navy px-8 py-4 text-base"
+              >
+                ✨ get started
+              </Link>
+              <Link
+                to="/login"
+                className="clay-button bg-surface-card text-text-secondary px-8 py-4 text-base"
+              >
+                log in
+              </Link>
+            </div>
+          )}
+        </div>
       </section>
 
-      {/* Divider */}
-      <div className="flex items-center gap-4 py-4">
-        <div className="flex-1 border-t border-warm-200"></div>
-        <span className="text-warm-300 text-xs italic font-serif">how it works</span>
-        <div className="flex-1 border-t border-warm-200"></div>
-      </div>
-
-      {/* Steps */}
+      {/* How It Works */}
       <section className="py-12">
-        <div className="space-y-6">
-          <div className="bg-cream rounded-2xl p-6 shadow-soft">
-            <div className="flex items-start gap-4">
-              <span className="text-warm-300 font-serif text-2xl italic">1.</span>
-              <div>
-                <h3 className="font-serif text-lg text-warm-700 mb-1">Open your fridge</h3>
-                <p className="text-warm-500 text-sm leading-relaxed">
-                  Just type what you see. Eggs, leftover rice, that bell pepper — anything works.
-                </p>
-              </div>
+        <h2 className="font-display text-2xl font-bold text-center text-brand-navy mb-10">how it works</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="clay-card p-8 text-center">
+            <div className="w-14 h-14 bg-gradient-sage rounded-2xl shadow-clay-sm mx-auto mb-4 flex items-center justify-center text-2xl">
+              🥕
             </div>
+            <h3 className="font-display font-bold text-brand-navy mb-2">add ingredients</h3>
+            <p className="text-text-secondary text-sm leading-relaxed">
+              whatever's in your fridge — eggs, rice, that random bell pepper.
+            </p>
           </div>
 
-          <div className="bg-cream rounded-2xl p-6 shadow-soft">
-            <div className="flex items-start gap-4">
-              <span className="text-warm-300 font-serif text-2xl italic">2.</span>
-              <div>
-                <h3 className="font-serif text-lg text-warm-700 mb-1">Tell us what you like</h3>
-                <p className="text-warm-500 text-sm leading-relaxed">
-                  Your favorite cuisines, how much time you have, any dietary needs. Set it once.
-                </p>
-              </div>
+          <div className="clay-card p-8 text-center">
+            <div className="w-14 h-14 bg-gradient-pink rounded-2xl shadow-clay-sm mx-auto mb-4 flex items-center justify-center text-2xl">
+              ⚙️
             </div>
+            <h3 className="font-display font-bold text-brand-navy mb-2">set your vibe</h3>
+            <p className="text-text-secondary text-sm leading-relaxed">
+              pick cuisines, dietary needs, cook time, and your goals.
+            </p>
           </div>
 
-          <div className="bg-cream rounded-2xl p-6 shadow-soft">
-            <div className="flex items-start gap-4">
-              <span className="text-warm-300 font-serif text-2xl italic">3.</span>
-              <div>
-                <h3 className="font-serif text-lg text-warm-700 mb-1">Get a gentle suggestion</h3>
-                <p className="text-warm-500 text-sm leading-relaxed">
-                  We'll suggest breakfast, lunch, and dinner. With ingredients, steps, and a grocery list if you need it.
-                </p>
-              </div>
+          <div className="clay-card p-8 text-center">
+            <div className="w-14 h-14 bg-gradient-orange rounded-2xl shadow-clay-sm mx-auto mb-4 flex items-center justify-center text-2xl">
+              ✨
             </div>
+            <h3 className="font-display font-bold text-brand-navy mb-2">get your meals</h3>
+            <p className="text-text-secondary text-sm leading-relaxed">
+              ai generates breakfast, lunch & dinner with full recipes.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Bottom note */}
+      {/* Features */}
+      <section className="py-12">
+        <div className="clay-card p-10">
+          <h2 className="font-display text-2xl font-bold text-brand-navy mb-8 text-center">built for real life</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { icon: '🌍', title: 'cultural cuisines', desc: 'indian, korean, mexican, thai — food that feels like home', color: 'bg-gradient-teal' },
+              { icon: '⏱️', title: 'time-aware', desc: '15 min or 2 hours — recipes that fit your schedule', color: 'bg-gradient-orange' },
+              { icon: '💪', title: 'nutrition goals', desc: 'bulk, cut, or chill — with calorie & protein estimates', color: 'bg-gradient-sage' },
+              { icon: '🛒', title: 'auto grocery list', desc: 'one tap turns your meal plan into a shopping list', color: 'bg-gradient-pink' },
+            ].map((f) => (
+              <div key={f.title} className="flex items-start gap-4 p-4 rounded-2xl bg-surface-muted/50">
+                <div className={`w-10 h-10 ${f.color} rounded-xl shadow-clay-sm flex items-center justify-center text-lg flex-shrink-0`}>
+                  {f.icon}
+                </div>
+                <div>
+                  <h3 className="font-display font-semibold text-brand-navy text-sm">{f.title}</h3>
+                  <p className="text-text-secondary text-xs mt-1">{f.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
       {!user && (
-        <section className="py-16 text-center">
-          <p className="font-serif italic text-warm-400 mb-6">
-            "Cooking should feel like a quiet moment, not a chore."
-          </p>
-          <Link
-            to="/register"
-            className="bg-sage-light/60 border border-sage/30 px-7 py-3 rounded-xl text-warm-700 font-medium hover:bg-sage-light transition-all"
-          >
-            start here
-          </Link>
+        <section className="py-12 text-center">
+          <div className="clay-card p-12 bg-gradient-warm">
+            <p className="font-display text-xl font-bold text-brand-navy mb-4">stop overthinking dinner.</p>
+            <p className="text-text-secondary mb-6">join in 10 seconds. your first meal plan is free.</p>
+            <Link
+              to="/register"
+              className="clay-button bg-surface-card text-brand-navy px-8 py-4 text-base inline-block"
+            >
+              ✨ get started
+            </Link>
+          </div>
         </section>
       )}
     </div>

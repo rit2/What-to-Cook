@@ -50,78 +50,102 @@ function MealPlan() {
     });
   };
 
+  const mealGradients = {
+    breakfast: 'bg-gradient-orange',
+    lunch: 'bg-gradient-sage',
+    dinner: 'bg-gradient-teal',
+  };
+
+  const mealIcons = {
+    breakfast: '🌅',
+    lunch: '☀️',
+    dinner: '🌙',
+  };
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-serif text-2xl text-warm-700">Today's Meals</h1>
-          <p className="text-warm-400 text-sm mt-1">gentle suggestions for your day.</p>
+          <h1 className="font-display text-2xl font-bold text-brand-navy">today's meals</h1>
+          <p className="text-text-secondary text-sm mt-1">personalized just for you</p>
         </div>
         <button
           onClick={generatePlan}
           disabled={loading}
-          className="bg-sage-light/60 border border-sage/30 px-5 py-2 rounded-xl text-sm text-warm-700 hover:bg-sage-light transition-all disabled:opacity-50"
+          className="clay-button bg-gradient-teal text-brand-navy px-6 py-3 text-sm disabled:opacity-50"
         >
-          {loading ? 'thinking...' : meals ? 'try again' : 'suggest meals'}
+          {loading ? '🧠 thinking...' : meals ? '🔄 regenerate' : '✨ suggest meals'}
         </button>
       </div>
 
       {error && (
-        <div className="bg-berry/10 border border-berry/20 p-4 rounded-xl mb-6 text-sm text-warm-700 text-center">{error}</div>
+        <div className="clay-card bg-brand-pink-light/30 p-4 mb-6 text-sm text-center text-text-primary">{error}</div>
       )}
 
       {loading && (
-        <div className="text-center py-16">
-          <p className="font-serif italic text-warm-400 text-lg">thinking of something nice...</p>
-          <p className="text-warm-300 text-sm mt-2">this takes a few moments</p>
+        <div className="clay-card p-16 text-center">
+          <div className="w-16 h-16 bg-gradient-teal rounded-full shadow-clay mx-auto mb-4 animate-pulse flex items-center justify-center text-2xl">🧠</div>
+          <p className="font-display font-semibold text-brand-navy">cooking up ideas...</p>
+          <p className="text-text-muted text-sm mt-2">this takes a few seconds</p>
         </div>
       )}
 
       {meals && !loading && (
         <div className="space-y-6">
           {meals.meals.map((meal) => (
-            <div key={meal.id} className="bg-cream rounded-2xl p-6 shadow-soft border border-warm-100">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-warm-400 mb-1">{meal.type}</p>
-                  <h2 className="font-serif text-xl text-warm-700">{meal.title}</h2>
+            <div key={meal.id} className="clay-card p-6 overflow-hidden">
+              {/* Header */}
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 ${mealGradients[meal.type] || 'bg-gradient-teal'} rounded-xl shadow-clay-sm flex items-center justify-center`}>
+                    {mealIcons[meal.type] || '🍽️'}
+                  </div>
+                  <div>
+                    <p className="text-xs font-display font-bold uppercase tracking-wider text-text-muted">{meal.type}</p>
+                    <h2 className="font-display text-lg font-bold text-brand-navy">{meal.title}</h2>
+                  </div>
                 </div>
                 <button
                   onClick={() => toggleFavorite(meal.id)}
-                  className="text-lg transition-transform hover:scale-110"
-                  aria-label={meal.isFavorite ? 'Remove from saved' : 'Save this recipe'}
+                  className="clay-chip bg-surface-muted text-lg"
+                  aria-label={meal.isFavorite ? 'Remove from saved' : 'Save recipe'}
                 >
-                  {meal.isFavorite ? '♥' : '♡'}
+                  {meal.isFavorite ? '❤️' : '🤍'}
                 </button>
               </div>
 
-              <div className="flex gap-4 mt-3 text-xs text-warm-400">
-                <span>{meal.prepTimeMinutes + meal.cookTimeMinutes} min</span>
-                <span>~{meal.estimatedCalories} cal</span>
-                <span>{meal.estimatedProteinG}g protein</span>
+              {/* Stats */}
+              <div className="flex gap-2 mb-5">
+                <span className="clay-chip bg-surface-muted text-xs text-text-secondary">⏱ {meal.prepTimeMinutes + meal.cookTimeMinutes} min</span>
+                <span className="clay-chip bg-surface-muted text-xs text-text-secondary">🔥 {meal.estimatedCalories} cal</span>
+                <span className="clay-chip bg-surface-muted text-xs text-text-secondary">💪 {meal.estimatedProteinG}g protein</span>
               </div>
 
-              <div className="mt-5 border-t border-warm-100 pt-4">
-                <p className="text-xs font-medium text-warm-500 mb-2">You'll need</p>
+              {/* Ingredients */}
+              <div className="mb-5">
+                <p className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-3">ingredients</p>
                 <div className="flex flex-wrap gap-2">
                   {meal.ingredients.map((ing, i) => (
-                    <span key={i} className="bg-parchment border border-warm-200 rounded-lg px-2 py-1 text-xs text-warm-600">
+                    <span key={i} className="bg-surface-muted rounded-pill px-3 py-1 text-xs text-text-primary shadow-clay-sm">
                       {ing.quantity} {ing.unit} {ing.name}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="mt-5 border-t border-warm-100 pt-4">
-                <p className="text-xs font-medium text-warm-500 mb-2">Steps</p>
-                <ol className="space-y-2">
+              {/* Steps */}
+              <div>
+                <p className="text-xs font-display font-bold text-text-secondary uppercase tracking-wide mb-3">steps</p>
+                <div className="space-y-3">
                   {meal.instructions.map((step, i) => (
-                    <li key={i} className="text-sm text-warm-600 leading-relaxed">
-                      <span className="text-warm-300 font-serif italic mr-2">{i + 1}.</span>
-                      {step.text}
-                    </li>
+                    <div key={i} className="flex gap-3 items-start">
+                      <span className="w-6 h-6 bg-gradient-teal rounded-full shadow-clay-sm flex items-center justify-center text-xs font-bold text-brand-navy flex-shrink-0">
+                        {i + 1}
+                      </span>
+                      <p className="text-sm text-text-secondary leading-relaxed pt-0.5">{step.text}</p>
+                    </div>
                   ))}
-                </ol>
+                </div>
               </div>
             </div>
           ))}
@@ -129,9 +153,10 @@ function MealPlan() {
       )}
 
       {!meals && !loading && (
-        <div className="bg-cream rounded-2xl p-12 text-center shadow-soft">
-          <p className="font-serif italic text-warm-400 text-lg">no meals yet.</p>
-          <p className="text-warm-400 text-sm mt-2">click "suggest meals" and we'll find something for you.</p>
+        <div className="clay-card p-12 text-center">
+          <div className="w-16 h-16 bg-gradient-orange rounded-full shadow-clay mx-auto mb-4 flex items-center justify-center text-2xl">🍜</div>
+          <p className="font-display font-semibold text-brand-navy">no meals yet</p>
+          <p className="text-text-muted text-sm mt-2">tap "suggest meals" and we'll plan your day.</p>
         </div>
       )}
     </div>

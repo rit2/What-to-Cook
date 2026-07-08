@@ -1,49 +1,63 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 
 function Layout() {
   const { user, logout } = useAuth();
+  const location = useLocation();
+
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="min-h-screen">
-      <nav className="border-b border-warm-200 bg-cream/80 backdrop-blur-sm">
-        <div className="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
-          <Link to="/" className="font-serif text-xl text-warm-700 italic">
-            What to Cook
+    <div className="min-h-screen pb-8">
+      {/* Top Nav */}
+      <nav className="sticky top-0 z-50 backdrop-blur-md bg-surface-primary/70 border-b border-white/40">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link to="/" className="font-display text-xl font-bold text-brand-navy flex items-center gap-2">
+            <span className="w-8 h-8 bg-gradient-orange rounded-full shadow-clay-sm flex items-center justify-center text-sm">🍜</span>
+            what to cook
           </Link>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2">
             {user ? (
               <>
-                <Link to="/ingredients" className="text-sm text-warm-500 hover:text-warm-700 transition-colors">
+                <Link
+                  to="/ingredients"
+                  className={`clay-chip ${isActive('/ingredients') ? 'bg-gradient-sage text-text-primary' : 'bg-surface-card text-text-secondary'}`}
+                >
                   pantry
                 </Link>
-                <Link to="/meal-plan" className="text-sm text-warm-500 hover:text-warm-700 transition-colors">
+                <Link
+                  to="/meal-plan"
+                  className={`clay-chip ${isActive('/meal-plan') ? 'bg-gradient-teal text-text-primary' : 'bg-surface-card text-text-secondary'}`}
+                >
                   meals
                 </Link>
-                <Link to="/grocery-list" className="text-sm text-warm-500 hover:text-warm-700 transition-colors">
-                  groceries
+                <Link
+                  to="/grocery-list"
+                  className={`clay-chip ${isActive('/grocery-list') ? 'bg-gradient-orange text-text-primary' : 'bg-surface-card text-text-secondary'}`}
+                >
+                  grocery
                 </Link>
-                <Link to="/favorites" className="text-sm text-warm-500 hover:text-warm-700 transition-colors">
+                <Link
+                  to="/favorites"
+                  className={`clay-chip ${isActive('/favorites') ? 'bg-gradient-pink text-text-primary' : 'bg-surface-card text-text-secondary'}`}
+                >
                   saved
                 </Link>
                 <button
                   onClick={logout}
-                  className="text-sm text-warm-400 hover:text-warm-600 transition-colors"
+                  className="clay-chip bg-surface-card text-text-muted hover:text-text-primary"
                 >
-                  leave
+                  ×
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="text-sm text-warm-500 hover:text-warm-700 transition-colors">
-                  sign in
+                <Link to="/login" className="clay-chip bg-surface-card text-text-secondary">
+                  log in
                 </Link>
-                <Link
-                  to="/register"
-                  className="text-sm bg-sage-light/60 border border-sage/30 px-4 py-2 rounded-xl text-warm-700 hover:bg-sage-light transition-colors"
-                >
-                  join
+                <Link to="/register" className="clay-button bg-gradient-teal text-text-primary px-5 py-2">
+                  sign up
                 </Link>
               </>
             )}
@@ -51,13 +65,9 @@ function Layout() {
         </div>
       </nav>
 
-      <main className="max-w-3xl mx-auto px-6 py-12">
+      <main className="max-w-4xl mx-auto px-6 py-10">
         <Outlet />
       </main>
-
-      <footer className="border-t border-warm-200 py-6 text-center">
-        <p className="text-xs text-warm-400 italic font-serif">take it easy. one meal at a time.</p>
-      </footer>
     </div>
   );
 }

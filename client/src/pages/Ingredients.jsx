@@ -49,48 +49,49 @@ function Ingredients() {
     setIngredients(ingredients.filter((i) => i.id !== id));
   };
 
-  if (loading) return <p className="text-warm-400 text-center py-12 italic">loading your pantry...</p>;
+  if (loading) return <p className="text-text-muted text-center py-12 font-display">loading pantry...</p>;
 
   return (
     <div className="max-w-xl mx-auto">
-      <h1 className="font-serif text-2xl text-warm-700 mb-2">Your Pantry</h1>
-      <p className="text-warm-400 text-sm mb-8">
-        What do you have at home? Just list what comes to mind.
-      </p>
+      <div className="text-center mb-8">
+        <div className="w-14 h-14 bg-gradient-sage rounded-2xl shadow-clay-sm mx-auto mb-4 flex items-center justify-center text-2xl">🧊</div>
+        <h1 className="font-display text-2xl font-bold text-brand-navy">your pantry</h1>
+        <p className="text-text-secondary text-sm mt-1">what do you have at home?</p>
+      </div>
 
       <form onSubmit={addIngredient} className="flex gap-3 mb-8">
         <input
           type="text"
           value={newIngredient}
           onChange={(e) => setNewIngredient(e.target.value)}
-          placeholder="eggs, rice, tomatoes..."
-          className="flex-1 bg-cream border border-warm-200 rounded-xl px-4 py-3 text-sm text-warm-700 focus:outline-none focus:border-warm-400 transition-colors placeholder:text-warm-300"
+          placeholder="eggs, chicken, rice..."
+          className="clay-input flex-1"
         />
         <button
           type="submit"
-          className="bg-sage-light/60 border border-sage/30 px-5 py-3 rounded-xl text-sm text-warm-700 hover:bg-sage-light transition-all"
+          className="clay-button bg-gradient-sage text-brand-navy px-6 py-4 text-sm"
         >
-          add
+          + add
         </button>
       </form>
 
       {ingredients.length === 0 ? (
-        <div className="bg-cream rounded-2xl p-10 text-center shadow-soft">
-          <p className="font-serif italic text-warm-400">your pantry is empty.</p>
-          <p className="text-warm-400 text-sm mt-2">add a few things and we'll work with what you've got.</p>
+        <div className="clay-card p-10 text-center">
+          <p className="text-text-muted font-display">your pantry is empty</p>
+          <p className="text-text-muted text-sm mt-2">add ingredients and we'll work with what you've got.</p>
         </div>
       ) : (
-        <div className="bg-cream rounded-2xl p-6 shadow-soft">
+        <div className="clay-card p-6">
           <div className="flex flex-wrap gap-2">
             {ingredients.map((ing) => (
               <span
                 key={ing.id}
-                className="inline-flex items-center gap-2 bg-parchment border border-warm-200 rounded-lg px-3 py-2 text-sm text-warm-600"
+                className="clay-chip bg-surface-muted text-text-primary inline-flex items-center gap-2"
               >
                 {ing.name}
                 <button
                   onClick={() => removeIngredient(ing.id)}
-                  className="text-warm-300 hover:text-berry transition-colors"
+                  className="text-text-muted hover:text-brand-pink transition-colors ml-1 text-lg leading-none"
                   aria-label={`Remove ${ing.name}`}
                 >
                   ×
@@ -98,9 +99,11 @@ function Ingredients() {
               </span>
             ))}
           </div>
-          <p className="text-xs text-warm-400 mt-4 italic">
-            {ingredients.length} item{ingredients.length !== 1 ? 's' : ''} in your pantry
-          </p>
+          <div className="mt-4 pt-4 border-t border-surface-muted">
+            <p className="text-xs text-text-muted font-display">
+              {ingredients.length} item{ingredients.length !== 1 ? 's' : ''} in pantry
+            </p>
+          </div>
         </div>
       )}
     </div>

@@ -33,52 +33,76 @@ function GroceryList() {
     });
   };
 
+  const checkedCount = list ? list.items.filter((i) => i.checked).length : 0;
+  const totalCount = list ? list.items.length : 0;
+  const progress = totalCount > 0 ? (checkedCount / totalCount) * 100 : 0;
+
   return (
     <div className="max-w-xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-serif text-2xl text-warm-700">Grocery List</h1>
-          <p className="text-warm-400 text-sm mt-1">what you need from the store.</p>
+          <h1 className="font-display text-2xl font-bold text-brand-navy">grocery list</h1>
+          <p className="text-text-secondary text-sm mt-1">what you need from the store</p>
         </div>
         <button
           onClick={generateList}
           disabled={loading}
-          className="bg-sage-light/60 border border-sage/30 px-5 py-2 rounded-xl text-sm text-warm-700 hover:bg-sage-light transition-all disabled:opacity-50"
+          className="clay-button bg-gradient-orange text-brand-navy px-5 py-3 text-sm disabled:opacity-50"
         >
-          {loading ? 'making list...' : 'generate list'}
+          {loading ? 'making list...' : '🛒 generate'}
         </button>
       </div>
 
       {list ? (
-        <div className="bg-cream rounded-2xl p-6 shadow-soft">
+        <div className="clay-card p-6">
+          {/* Progress bar */}
+          <div className="mb-6">
+            <div className="flex justify-between text-xs font-display text-text-muted mb-2">
+              <span>{checkedCount} of {totalCount} items</span>
+              <span>{Math.round(progress)}%</span>
+            </div>
+            <div className="h-2 bg-surface-muted rounded-pill overflow-hidden shadow-clay-inset">
+              <div
+                className="h-full bg-gradient-teal rounded-pill transition-all duration-500"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          </div>
+
+          {/* Items */}
           <div className="space-y-2">
             {list.items.map((item, i) => (
               <label
                 key={i}
-                className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all ${
+                className={`flex items-center gap-3 p-4 rounded-2xl cursor-pointer transition-all duration-200 ${
                   item.checked
-                    ? 'line-through text-warm-300'
-                    : 'text-warm-600 hover:bg-parchment'
+                    ? 'bg-brand-teal-light/20 line-through text-text-muted'
+                    : 'bg-surface-muted hover:shadow-clay-sm text-text-primary'
                 }`}
               >
+                <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all ${
+                  item.checked
+                    ? 'bg-gradient-teal border-brand-teal shadow-clay-sm'
+                    : 'border-text-muted/30'
+                }`}>
+                  {item.checked && <span className="text-white text-xs">✓</span>}
+                </div>
                 <input
                   type="checkbox"
                   checked={item.checked}
                   onChange={() => toggleItem(i)}
-                  className="w-4 h-4 accent-sage rounded"
+                  className="sr-only"
                 />
-                <span className="text-sm">{item.quantity} {item.unit} {item.name}</span>
+                <span className="text-sm font-body">{item.quantity} {item.unit} {item.name}</span>
               </label>
             ))}
           </div>
-          <p className="text-xs text-warm-300 mt-4 italic border-t border-warm-100 pt-3">
-            {list.items.filter((i) => i.checked).length} of {list.items.length} items done
-          </p>
         </div>
       ) : (
-        <div className="bg-cream rounded-2xl p-12 text-center shadow-soft">
-          <p className="font-serif italic text-warm-400">no list yet.</p>
-          <p className="text-warm-400 text-sm mt-2">generate one from your latest meal plan.</p>
+        <div className="clay-card p-12 text-center">
+          <div className="w-16 h-16 bg-gradient-orange rounded-full shadow-clay mx-auto mb-4 flex items-center justify-center text-2xl">🛒</div>
+          <p className="font-display font-semibold text-brand-navy">no list yet</p>
+          <p className="text-text-muted text-sm mt-2">generate one from your latest meal plan.</p>
         </div>
       )}
     </div>
