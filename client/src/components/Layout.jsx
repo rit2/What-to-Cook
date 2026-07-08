@@ -6,7 +6,7 @@ function Layout() {
 
   return (
     <div className="min-h-screen pb-8">
-      <nav className="sticky top-0 z-50 backdrop-blur-md bg-surface-primary/70 border-b border-white/40">
+      <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/40 border-b border-white/30 shadow-clay-sm">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to="/" className="font-display text-xl font-bold text-brand-navy flex items-center gap-2">
             <span className="w-8 h-8 bg-gradient-orange rounded-full shadow-clay-sm flex items-center justify-center text-sm">🍜</span>

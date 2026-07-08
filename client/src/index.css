@@ -5,9 +5,12 @@
 @tailwind utilities;
 
 body {
-  @apply bg-surface-primary text-text-primary min-h-screen font-body;
-  background-image: radial-gradient(ellipse at top left, rgba(232, 180, 184, 0.1) 0%, transparent 50%),
-                    radial-gradient(ellipse at bottom right, rgba(126, 200, 200, 0.1) 0%, transparent 50%);
+  @apply text-text-primary min-h-screen font-body;
+  background-image: url('/bg.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 ::selection {
@@ -27,13 +30,13 @@ body {
 
 @layer components {
   .clay-card {
-    @apply bg-gradient-card rounded-3xl shadow-clay border border-white/50;
+    @apply bg-white/70 backdrop-blur-md rounded-3xl shadow-clay border border-white/50;
   }
   .clay-button {
     @apply rounded-pill shadow-clay-button font-display font-semibold transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] active:shadow-clay-inset;
   }
   .clay-input {
-    @apply bg-surface-muted rounded-2xl px-5 py-4 text-sm shadow-clay-inset border-0 focus:outline-none focus:ring-2 focus:ring-brand-teal/30 transition-all;
+    @apply bg-white/60 backdrop-blur-sm rounded-2xl px-5 py-4 text-sm shadow-clay-inset border-0 focus:outline-none focus:ring-2 focus:ring-brand-teal/30 transition-all;
   }
   .clay-chip {
     @apply rounded-pill px-4 py-2 text-sm font-medium shadow-clay-sm transition-all duration-200 hover:scale-[1.03] active:scale-[0.97];

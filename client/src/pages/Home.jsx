@@ -5,10 +5,6 @@ function Home() {
     <div>
       {/* Hero */}
       <section className="py-16 text-center relative">
-        <div className="absolute top-8 left-8 w-16 h-16 bg-gradient-pink rounded-full shadow-clay opacity-60 blur-[1px]"></div>
-        <div className="absolute top-20 right-12 w-12 h-12 bg-gradient-teal rounded-full shadow-clay opacity-50 blur-[1px]"></div>
-        <div className="absolute bottom-12 left-1/4 w-10 h-10 bg-gradient-orange rounded-full shadow-clay-sm opacity-40"></div>
-
         <div className="relative z-10">
           <div className="w-20 h-20 bg-gradient-orange rounded-full shadow-clay-lg mx-auto mb-6 flex items-center justify-center text-3xl">
             🍜
